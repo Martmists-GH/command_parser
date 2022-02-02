@@ -11,10 +11,22 @@ This is my crappy command parser inspired by brigadier and kordex
 
 ## Usage
 
+
+### Gradle
+
 ```kotlin
+repositories {
+    maven("https://maven.martmists.com/releases")
+}
 
-import kotlin.math.pow
+dependencies {
+    implementation("com.martmists:command_parser:1.2.2")
+}
+```
 
+### Example
+
+```kotlin
 // Create a class to hold your context, you can do whatever with it.
 class MyContext(input: String) : Context(input) {  // Somehow pass input to the constructor
     // You can add your own fields and methods here.
