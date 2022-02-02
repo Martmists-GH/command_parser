@@ -15,10 +15,7 @@ class IntegerArgumentType<C : Context> private constructor(private val radix: In
     }
 
     companion object {
-        @JvmOverloads
         fun <C : Context> int(min: Int = Int.MIN_VALUE, max: Int = Int.MAX_VALUE, radix: Int = 10) = IntegerArgumentType<C>(radix, min .. max)
-
-        @JvmOverloads
         fun <C : Context> int(range: IntRange, radix: Int = 10) = IntegerArgumentType<C>(radix, range)
     }
 }

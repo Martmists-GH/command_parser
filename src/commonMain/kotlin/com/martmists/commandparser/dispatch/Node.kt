@@ -9,9 +9,9 @@ abstract class Node<C : Context> {
         true
     }
 
-    abstract suspend fun match(ctx: C, input: String): Pair<Boolean, String>
+    internal abstract suspend fun match(ctx: C, input: String): Pair<Boolean, String>
 
-    fun addChild(node: Node<C>) {
+    internal fun addChild(node: Node<C>) {
         children.add(node)
     }
 
@@ -23,15 +23,15 @@ abstract class Node<C : Context> {
         return action != null
     }
 
-    fun setAction(block: suspend C.() -> Unit) {
+    internal fun setAction(block: suspend C.() -> Unit) {
         action = block
     }
 
-    fun setCheck(block: suspend C.() -> Boolean) {
+    internal fun setCheck(block: suspend C.() -> Boolean) {
         check = block
     }
 
-    suspend fun tryDispatch(context: C, input: String): Boolean {
+    internal suspend fun tryDispatch(context: C, input: String): Boolean {
         val (matches, remaining) = match(context, input)
         if (matches) {
             if (this is ArgumentNode<C, *>) {

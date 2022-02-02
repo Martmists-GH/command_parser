@@ -15,7 +15,6 @@ class FloatArgumentType<C : Context> private constructor(private val range: Clos
     }
 
     companion object {
-        @JvmOverloads
         fun <C: Context> float(min: Float = Float.NEGATIVE_INFINITY, max: Float = Float.POSITIVE_INFINITY) = FloatArgumentType<C>(min .. max)
         fun <C: Context> float(range: ClosedFloatingPointRange<Float>) = FloatArgumentType<C>(range)
     }
