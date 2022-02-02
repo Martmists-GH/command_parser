@@ -36,8 +36,8 @@ suspend fun main() {
         }
     }
 
-    dispatcher.dispatch("hello")        // Prints "Hello world!" and returns true
-    dispatcher.dispatch("hello world")  // Doesn't match and returns false
+    dispatcher.dispatch(MyContext("hello"))        // Prints "Hello world!" and returns true
+    dispatcher.dispatch(MyContext("hello world"))  // Doesn't match and returns false
 
     // Calling build again does NOT remove the previously registered commands!
     build(dispatcher) {
@@ -65,8 +65,8 @@ suspend fun main() {
         }
     }
 
-    dispatcher.dispatch("add 1 2")      // Prints "1 + 2 = 3"
-    dispatcher.dispatch("add 1.0 2.0")  // Prints "1.0 + 2.0 = 3.0"
+    dispatcher.dispatch(MyContext("add 1 2"))      // Prints "1 + 2 = 3"
+    dispatcher.dispatch(MyContext("add 1.0 2.0"))  // Prints "1.0 + 2.0 = 3.0"
 
     // You can place checks in the command tree
     build(dispatcher) {
@@ -99,11 +99,11 @@ suspend fun main() {
         }
     }
     
-    dispatcher.dispatch("divide 1 0")    // Doesn't match and returns false
-    dispatcher.dispatch("divide 1 2")    // Prints "1 / 2 = 0.5"
-    dispatcher.dispatch("divide 1 2 3")  // Prints "1 / (2^3) = 0.125"
-    dispatcher.dispatch("divide 1 2 0")  // Doesn't match and returns false
-    dispatcher.dispatch("divide 1 0 3")  // Doesn't match and returns false
+    dispatcher.dispatch(MyContext("divide 1 0"))    // Doesn't match and returns false
+    dispatcher.dispatch(MyContext("divide 1 2"))    // Prints "1 / 2 = 0.5"
+    dispatcher.dispatch(MyContext("divide 1 2 3"))  // Prints "1 / (2^3) = 0.125"
+    dispatcher.dispatch(MyContext("divide 1 2 0"))  // Doesn't match and returns false
+    dispatcher.dispatch(MyContext("divide 1 0 3"))  // Doesn't match and returns false
 
     // You can also use literals
     build(dispatcher) {
@@ -128,9 +128,9 @@ suspend fun main() {
         }
     }
 
-    dispatcher.dispatch("git add")     // Prints "Adding files..."
-    dispatcher.dispatch("git commit")  // Prints "Committing..."
-    dispatcher.dispatch("git push")    // Prints "Pushing..."
+    dispatcher.dispatch(MyContext("git add"))     // Prints "Adding files..."
+    dispatcher.dispatch(MyContext("git commit"))  // Prints "Committing..."
+    dispatcher.dispatch(MyContext("git push"))    // Prints "Pushing..."
 
     // Commands and Literals support aliases
     build(dispatcher) {
@@ -144,9 +144,9 @@ suspend fun main() {
     }
 
     // These all print "Dumping register info..."
-    dispatcher.dispatch("info register")
-    dispatcher.dispatch("info r")
-    dispatcher.dispatch("i reg")
+    dispatcher.dispatch(MyContext("info register"))
+    dispatcher.dispatch(MyContext("info r"))
+    dispatcher.dispatch(MyContext("i reg"))
 }
 
 // Custom argument types are also easy to add:
