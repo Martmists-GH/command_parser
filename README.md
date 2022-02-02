@@ -1,7 +1,7 @@
 # CommandParser
 
 This is a Kotlin/Multiplatform command parser inspired by brigadier and kordex using kotlinx.coroutines.    
-Its intended use is for CLI applications (or similar environments like chat bots) than for actual CLI parsing but I'm not stopping you if you want to use it as such.
+Its intended use is for CLI applications (or similar environments like chat bots).
 
 ## Features
 
