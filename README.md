@@ -1,16 +1,17 @@
 # CommandParser
 
-This is my crappy command parser inspired by brigadier and kordex
+This is a Kotlin/Multiplatform command parser inspired by brigadier and kordex using kotlinx.coroutines.    
+Its intended use is for CLI applications (or similar environments like chat bots) than for actual CLI parsing but I'm not stopping you if you want to use it as such.
 
 ## Features
 
-- Uses Kotlin DSL (wow)
-- Fast:tm: (how does he do it)
-- Simple to use, easy to understand (in my opinion)
-- Powerful (ish)
+- Easy to extend
+- Simple to use and understand
+- Supports kotlinx.coroutines
+- Contextual argument parsing
+- DSL builders for command trees
 
 ## Usage
-
 
 ### Gradle
 
@@ -194,3 +195,7 @@ suspend fun main() {
     }
 }
 ```
+
+## License
+
+This project is licensed under the BSD-4-Clause license.
