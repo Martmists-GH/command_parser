@@ -53,7 +53,8 @@ suspend fun main() {
             }
 
             // It's possible to create a tree of commands as well
-            // These are attempted in the same order as they are added
+            // These are traversed in the same order as they are added
+            // The first command that matches is executed and the rest are ignored
             argument("float1", FloatArgumentType.float()) { float1 ->
                 argument("float2", FloatArgumentType.float()) { float2 ->
                     action {
@@ -79,7 +80,7 @@ suspend fun main() {
                     }
 
                     action {
-                        println("${num1()} / ${num2()} = ${num1() / num2()}")
+                        println("${num1()} / ${num2()} = ${num1().toFloat() / num2()}")
                     }
 
                     // Add a subcommand to this command
@@ -90,13 +91,19 @@ suspend fun main() {
 
                         action {
                             // num2 != 0 and num3 > 0
-                            println("${num1()} / (${num2()}^${num3()}) = ${num1() / num2().pow(num3())}")
+                            println("${num1()} / (${num2()}^${num3()}) = ${num1().toFloat() / num2().pow(num3())}")
                         }
                     }
                 }
             }
         }
     }
+    
+    dispatcher.dispatch("divide 1 0")    // Doesn't match and returns false
+    dispatcher.dispatch("divide 1 2")    // Prints "1 / 2 = 0.5"
+    dispatcher.dispatch("divide 1 2 3")  // Prints "1 / (2^3) = 0.125"
+    dispatcher.dispatch("divide 1 2 0")  // Doesn't match and returns false
+    dispatcher.dispatch("divide 1 0 3")  // Doesn't match and returns false
 
     // You can also use literals
     build(dispatcher) {
@@ -174,5 +181,4 @@ suspend fun main() {
         }
     }
 }
-
 ```
