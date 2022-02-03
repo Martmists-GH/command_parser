@@ -18,6 +18,7 @@ Its intended use is for CLI applications (or similar environments like chat bots
 ```kotlin
 repositories {
     maven("https://maven.martmists.com/releases")
+    maven("https://maven.martmists.com/snapshots")  // For getting builds of a specific commit 
 }
 
 dependencies {
@@ -193,6 +194,9 @@ suspend fun main() {
             }
         }
     }
+
+    dispatcher.dispatch(MyContext("move (1, 2)"))      // Prints "Moving to 1, 2"
+    dispatcher.dispatch(MyContext("move (1.0, 2.0)"))  // Doesn't match and returns false
 }
 ```
 
