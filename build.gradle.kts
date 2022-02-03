@@ -43,7 +43,7 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
 }
 
-if (project.ext["mavenToken"] != null) {
+if (project.ext.has("mavenToken")) {
     publishing {
         repositories {
             maven {
