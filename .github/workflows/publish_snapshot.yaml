@@ -8,6 +8,7 @@ on:
 env:
   GITHUB_TARGET_REPO: "https://maven.martmists.com/snapshots"
   DEPLOY_TYPE: "snapshot"
+  DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
 
 jobs:
   build:
