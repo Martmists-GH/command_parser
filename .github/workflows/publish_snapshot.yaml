@@ -2,12 +2,12 @@ name: Publish
 
 on:
   push:
-    tags:
-      - '*'
+    branches:
+      - master
 
 env:
-  GITHUB_TARGET_REPO: "https://maven.martmists.com/releases"
-  DEPLOY_TYPE: "release"
+  GITHUB_TARGET_REPO: "https://maven.martmists.com/snapshots"
+  DEPLOY_TYPE: "snapshot"
 
 jobs:
   build:

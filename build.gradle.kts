@@ -74,7 +74,9 @@ if (project.ext["mavenToken"] != null) {
         }
 
         publications.withType<MavenPublication> {
-            version = System.getenv("GITHUB_SHA")!!
+            if (System.getenv("DEPLOY_TYPE") == "snapshot") {
+                version = System.getenv("GITHUB_SHA")!!
+            }
         }
     }
 }
