@@ -60,4 +60,21 @@ if (project.ext["mavenToken"] != null) {
 
         }
     }
+} else if (System.getenv("CI") == "true") {
+    publishing {
+        repositories {
+            maven {
+                name = "Host"
+                url = uri(System.getenv("GITHUB_TARGET_REPO")!!)
+                credentials {
+                    username = "github-actions"
+                    password = System.getenv("DEPLOY_KEY")!!
+                }
+            }
+        }
+
+        publications.withType<MavenPublication> {
+            version = System.getenv("GITHUB_SHA")!!
+        }
+    }
 }
