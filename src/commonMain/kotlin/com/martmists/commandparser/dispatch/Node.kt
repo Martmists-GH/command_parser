@@ -23,7 +23,7 @@ abstract class Node<C : Context> {
         return action != null
     }
     
-    fun doCheck(ctx: C): Boolean {
+    suspend fun doCheck(ctx: C): Boolean {
         return check(C)
     }
 
