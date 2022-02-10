@@ -24,7 +24,7 @@ abstract class Node<C : Context> {
     }
     
     suspend fun doCheck(ctx: C): Boolean {
-        return check(C)
+        return check(ctx)
     }
 
     internal fun setAction(block: suspend C.() -> Unit) {
