@@ -25,6 +25,30 @@ class BuildCommandContext<C : Context>(private val parent: Node<C>) {
         parent.addChild(node)
     }
 
+    fun <T : ArgumentType<C, R>, R> argument(
+        name: String,
+        type: T,
+        default: R,
+        block: BuildCommandContext<C>.(suspend C.() -> R) -> Unit
+    ) {
+        val node = ArgumentNode(name, type, optional=true, default=default)
+        val command = BuildCommandContext(node)
+        command.block(node::delegateDefault)
+        parent.addChild(node)
+    }
+
+    fun <T : ArgumentType<C, R>, R> argument(
+        name: String,
+        type: T,
+        optional: Boolean,
+        block: BuildCommandContext<C>.(suspend C.() -> R?) -> Unit
+    ) {
+        val node = ArgumentNode(name, type, optional=optional, default=null)
+        val command = BuildCommandContext(node)
+        command.block(node::delegateOptional)
+        parent.addChild(node)
+    }
+
     fun check(block: suspend C.() -> Boolean) {
         parent.setCheck(block)
     }

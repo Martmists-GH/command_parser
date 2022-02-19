@@ -1,6 +1,9 @@
 package com.martmists.commandparser.ext
 
 internal fun String.strip() : String {
+    if (isEmpty()) return this
+    if (isBlank()) return ""
+
     var start = 0
     var end = this.lastIndex
     while (start != end && this[start].isWhitespace()) {

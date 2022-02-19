@@ -39,7 +39,11 @@ abstract class Node<C : Context> {
         val (matches, remaining) = match(context, input)
         if (matches) {
             if (this is ArgumentNode<C, *>) {
-                context.addParameter(this.name, this.type.value(context, input.removeSuffix(remaining).strip()))
+                if (remaining == input) {
+                    context.addParameter(this.name, null)
+                } else {
+                    context.addParameter(this.name, this.type.value(context, input.removeSuffix(remaining).strip()))
+                }
             }
 
             if (check(context)) {

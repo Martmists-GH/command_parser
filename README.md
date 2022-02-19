@@ -81,6 +81,36 @@ suspend fun main() {
 
     dispatcher.dispatch(MyContext("add 1 2"))      // Prints "1 + 2 = 3"
     dispatcher.dispatch(MyContext("add 1.0 2.0"))  // Prints "1.0 + 2.0 = 3.0"
+    
+    // Arguments can be marked as optional
+    build(dispatcher) {
+        command("ls") {
+            // You can specify a default value for an argument
+            argument("path", StringArgumentType.greedy(), default=".") { path ->
+                action {
+                    println("Listing directory: ${path()}")
+                }
+            }
+        }
+        
+        command("find") {
+            // Or mark it as optional, which will make it nullable
+            argument("path", StringArgumentType.string(), optional = true) { path ->
+                action {
+                    if (path() != null) {
+                        println("Finding in directory: ${path()}")
+                    } else {
+                        println("Finding in current directory")
+                    }
+                }
+            }
+        }
+    }
+    
+    dispatcher.dispatch(MyContext("ls"))            // Prints "Listing directory: ."
+    dispatcher.dispatch(MyContext("ls /tmp"))       // Prints "Listing directory: /tmp"
+    dispatcher.dispatch(MyContext("find"))          // Prints "Finding in current directory"
+    dispatcher.dispatch(MyContext("find /tmp"))     // Prints "Finding in directory: /tmp"
 
     // You can place checks in the command tree
     build(dispatcher) {

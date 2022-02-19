@@ -4,6 +4,7 @@
 import com.martmists.commandparser.arguments.ArgumentType
 import com.martmists.commandparser.arguments.FloatArgumentType
 import com.martmists.commandparser.arguments.IntegerArgumentType
+import com.martmists.commandparser.arguments.StringArgumentType
 import com.martmists.commandparser.dispatch.Context
 import com.martmists.commandparser.dispatch.Dispatcher
 import com.martmists.commandparser.dsl.build
@@ -59,6 +60,30 @@ class ReadmeTest {
                     argument("float2", FloatArgumentType.float()) { float2 ->
                         action {
                             println("${float1()} + ${float2()} = ${float1() + float2()}")
+                        }
+                    }
+                }
+            }
+        }
+
+        build(dispatcher) {
+            command("ls") {
+                // You can specify a default value for an argument
+                argument("path", StringArgumentType.greedy(), default = ".") { path ->
+                    action {
+                        println("Listing directory: ${path()}")
+                    }
+                }
+            }
+
+            command("find") {
+                // Or mark it as optional, which will make it nullable
+                argument("path", StringArgumentType.string(), optional = true) { path ->
+                    action {
+                        if (path() != null) {
+                            println("Finding in directory: ${path()}")
+                        } else {
+                            println("Finding in current directory")
                         }
                     }
                 }
@@ -141,6 +166,14 @@ class ReadmeTest {
     fun testAdd() = runTest {
         assertTrue(dispatcher.dispatch(MyContext("add 1 2")))
         assertTrue(dispatcher.dispatch(MyContext("add 1.0 2.0")))
+    }
+
+    @Test
+    fun testPaths() = runTest {
+        assertTrue(dispatcher.dispatch(MyContext("ls")))
+        assertTrue(dispatcher.dispatch(MyContext("ls /tmp")))
+        assertTrue(dispatcher.dispatch(MyContext("find")))
+        assertTrue(dispatcher.dispatch(MyContext("find /tmp")))
     }
 
     @Test

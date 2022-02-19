@@ -7,6 +7,10 @@ open class Context(val input: String) {
         return arguments[name] as T
     }
 
+    internal fun <T> optionalArgument(name: String): T? {
+        return arguments[name] as T?
+    }
+
     internal fun addParameter(name: String, value: Any?) {
         arguments[name] = value
     }
