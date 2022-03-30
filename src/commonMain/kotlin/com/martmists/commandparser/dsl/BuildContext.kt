@@ -1,7 +1,7 @@
 package com.martmists.commandparser.dsl
 
-import com.martmists.commandparser.dispatch.Dispatcher
 import com.martmists.commandparser.dispatch.Context
+import com.martmists.commandparser.dispatch.Dispatcher
 import com.martmists.commandparser.dispatch.LiteralNode
 
 class BuildContext<C : Context>(private val dispatcher: Dispatcher<C>) {

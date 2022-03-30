@@ -2,7 +2,12 @@ package com.martmists.commandparser.dispatch
 
 import com.martmists.commandparser.arguments.ArgumentType
 
-class ArgumentNode<C : Context, T> internal constructor(val name: String, val type: ArgumentType<C, T>, private val optional: Boolean, private val default: T?) : Node<C>() {
+class ArgumentNode<C : Context, T> internal constructor(
+    val name: String,
+    val type: ArgumentType<C, T>,
+    private val optional: Boolean,
+    private val default: T?
+) : Node<C>() {
     constructor(name: String, type: ArgumentType<C, T>) : this(name, type, false, null)
 
     override suspend fun match(ctx: C, input: String): Pair<Boolean, String> {

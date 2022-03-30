@@ -2,7 +2,7 @@ package com.martmists.commandparser.arguments
 
 import com.martmists.commandparser.dispatch.Context
 
-class BooleanArgumentType<C: Context> private constructor() : ArgumentType<C, Boolean>() {
+class BooleanArgumentType<C : Context> private constructor() : ArgumentType<C, Boolean>() {
     override suspend fun parse(context: C, input: String): String? {
         val lower = input.lowercase()
         if (lower.startsWith("true")) {
@@ -18,6 +18,6 @@ class BooleanArgumentType<C: Context> private constructor() : ArgumentType<C, Bo
     }
 
     companion object {
-        fun <C: Context> bool() = BooleanArgumentType<C>()
+        fun <C : Context> bool() = BooleanArgumentType<C>()
     }
 }

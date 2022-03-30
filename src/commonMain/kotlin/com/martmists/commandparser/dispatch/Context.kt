@@ -18,4 +18,8 @@ open class Context(val input: String) {
     internal fun removeParameter(name: String) {
         arguments.remove(name)
     }
+
+    open fun hasPermission(node: String): Boolean {
+        return true
+    }
 }

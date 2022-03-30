@@ -6,8 +6,10 @@ import com.martmists.commandparser.arguments.FloatArgumentType
 import com.martmists.commandparser.arguments.IntegerArgumentType
 import com.martmists.commandparser.arguments.StringArgumentType
 import com.martmists.commandparser.dispatch.Context
+import com.martmists.commandparser.dispatch.ContextWithPermissions
 import com.martmists.commandparser.dispatch.Dispatcher
 import com.martmists.commandparser.dsl.build
+import com.martmists.commandparser.permissions.PermissionNode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlin.math.pow
@@ -16,6 +18,13 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 class MyContext(input: String) : Context(input)
+
+class MyPermissionContext(input: String, vararg permissions: String) : ContextWithPermissions(input) {
+    private val perms = PermissionNode.fromList(*permissions)
+    override fun getPermissions(): List<PermissionNode> {
+        return perms
+    }
+}
 
 data class Coordinate(val x: Int, val y: Int)
 
@@ -36,6 +45,7 @@ class CoordinateArgumentType<C : Context> : ArgumentType<C, Coordinate>() {
 
 class ReadmeTest {
     private val dispatcher = Dispatcher<MyContext>()
+    private val permissionDispatcher = Dispatcher<MyPermissionContext>()
 
     init {
         build(dispatcher) {
@@ -104,7 +114,11 @@ class ReadmeTest {
                             check { num3() > 0 }
 
                             action {
-                                println("${num1()} / (${num2()}^${num3()}) = ${num1().toFloat() / num2().toFloat().pow(num3())}")
+                                println(
+                                    "${num1()} / (${num2()}^${num3()}) = ${
+                                        num1().toFloat() / num2().toFloat().pow(num3())
+                                    }"
+                                )
                             }
                         }
                     }
@@ -149,6 +163,30 @@ class ReadmeTest {
                 argument("coord", CoordinateArgumentType()) { coord ->
                     action {
                         println("Moving to ${coord().x}, ${coord().y}")
+                    }
+                }
+            }
+        }
+
+        build(permissionDispatcher) {
+            command("admin") {
+                literal("add") {
+                    check {
+                        hasPermission("admin.add")
+                    }
+
+                    action {
+                        println("Adding admin.")
+                    }
+                }
+
+                literal("remove") {
+                    check {
+                        hasPermission("admin.remove")
+                    }
+
+                    action {
+                        println("Removing admin.")
                     }
                 }
             }
@@ -203,5 +241,13 @@ class ReadmeTest {
     fun testMove() = runTest {
         assertTrue(dispatcher.dispatch(MyContext("move (1, 2)")))
         assertFalse(dispatcher.dispatch(MyContext("move (1.0, 2.0)")))
+    }
+
+    @Test
+    fun testPermissions() = runTest {
+        assertTrue(permissionDispatcher.dispatch(MyPermissionContext("admin add", "admin.add")))
+        assertFalse(permissionDispatcher.dispatch(MyPermissionContext("admin remove", "admin.add")))
+        assertTrue(permissionDispatcher.dispatch(MyPermissionContext("admin add", "admin.*")))
+        assertTrue(permissionDispatcher.dispatch(MyPermissionContext("admin remove", "admin.*")))
     }
 }

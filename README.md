@@ -228,6 +228,49 @@ suspend fun main() {
     dispatcher.dispatch(MyContext("move (1, 2)"))      // Prints "Moving to 1, 2"
     dispatcher.dispatch(MyContext("move (1.0, 2.0)"))  // Doesn't match and returns false
 }
+
+// Permission nodes are also supported
+
+class MyPermissionContext(input: String, vararg permissions: String) : ContextWithPermissions(input) {
+    private val perms = PermissionNode.fromList(*permissions)
+    override fun getPermissions(): List<PermissionNode> {
+        return perms
+    }
+}
+
+suspend fun main() {
+    private val permissionDispatcher = Dispatcher<MyPermissionContext>()
+    
+    // ...
+    build(permissionDispatcher) {
+        command("admin") {
+            literal("add") {
+                check {
+                    hasPermission("admin.add")
+                }
+
+                action {
+                    println("Adding admin.")
+                }
+            }
+
+            literal("remove") {
+                check {
+                    hasPermission("admin.remove")
+                }
+
+                action {
+                    println("Removing admin.")
+                }
+            }
+        }
+    }
+
+    permissionDispatcher.dispatch(MyPermissionContext("admin add", "admin.add"))     // Prints "Adding admin."
+    permissionDispatcher.dispatch(MyPermissionContext("admin remove", "admin.add"))  // Doesn't match and returns false
+    permissionDispatcher.dispatch(MyPermissionContext("admin add", "admin.*"))       // Prints "Adding admin." (wildcard)
+    permissionDispatcher.dispatch(MyPermissionContext("admin remove", "admin.*"))    // Prints "Removing admin." (wildcard)
+}
 ```
 
 ## License

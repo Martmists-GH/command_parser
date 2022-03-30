@@ -23,13 +23,13 @@ class CommandTests {
                     println("success")
                 }
 
-                argument("arg", IntegerArgumentType.int(radix=2)) { bin ->
+                argument("arg", IntegerArgumentType.int(radix = 2)) { bin ->
                     action {
                         println(bin())
                     }
                 }
 
-                argument("arg", IntegerArgumentType.int(radix=16)) { hex ->
+                argument("arg", IntegerArgumentType.int(radix = 16)) { hex ->
                     action {
                         println(hex())
                     }

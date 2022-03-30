@@ -1,9 +1,8 @@
 package com.martmists.commandparser.arguments
 
 import com.martmists.commandparser.dispatch.Context
-import com.martmists.commandparser.ext.strip
 
-class StringArgumentType<C: Context> private constructor(private val type: StringType) : ArgumentType<C, String>() {
+class StringArgumentType<C : Context> private constructor(private val type: StringType) : ArgumentType<C, String>() {
     private enum class StringType {
         WORD,
         STRING,
@@ -53,8 +52,8 @@ class StringArgumentType<C: Context> private constructor(private val type: Strin
     }
 
     companion object {
-        fun <C: Context> word() = StringArgumentType<C>(StringType.WORD)
-        fun <C: Context> string() = StringArgumentType<C>(StringType.STRING)
-        fun <C: Context> greedy() = StringArgumentType<C>(StringType.GREEDY)
+        fun <C : Context> word() = StringArgumentType<C>(StringType.WORD)
+        fun <C : Context> string() = StringArgumentType<C>(StringType.STRING)
+        fun <C : Context> greedy() = StringArgumentType<C>(StringType.GREEDY)
     }
 }

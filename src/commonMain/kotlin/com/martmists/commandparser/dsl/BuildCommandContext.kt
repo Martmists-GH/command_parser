@@ -31,7 +31,7 @@ class BuildCommandContext<C : Context>(private val parent: Node<C>) {
         default: R,
         block: BuildCommandContext<C>.(suspend C.() -> R) -> Unit
     ) {
-        val node = ArgumentNode(name, type, optional=true, default=default)
+        val node = ArgumentNode(name, type, optional = true, default = default)
         val command = BuildCommandContext(node)
         command.block(node::delegateDefault)
         parent.addChild(node)
@@ -43,7 +43,7 @@ class BuildCommandContext<C : Context>(private val parent: Node<C>) {
         optional: Boolean,
         block: BuildCommandContext<C>.(suspend C.() -> R?) -> Unit
     ) {
-        val node = ArgumentNode(name, type, optional=optional, default=null)
+        val node = ArgumentNode(name, type, optional = optional, default = null)
         val command = BuildCommandContext(node)
         command.block(node::delegateOptional)
         parent.addChild(node)

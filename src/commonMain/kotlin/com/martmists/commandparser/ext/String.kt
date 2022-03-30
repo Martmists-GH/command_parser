@@ -1,6 +1,6 @@
 package com.martmists.commandparser.ext
 
-internal fun String.strip() : String {
+internal fun String.strip(): String {
     if (isEmpty()) return this
     if (isBlank()) return ""
 
@@ -12,5 +12,5 @@ internal fun String.strip() : String {
     while (start != end && this[end].isWhitespace()) {
         end -= 1
     }
-    return this.substring(start, end+1)
+    return this.substring(start, end + 1)
 }
