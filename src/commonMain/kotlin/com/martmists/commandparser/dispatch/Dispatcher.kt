@@ -1,7 +1,5 @@
 package com.martmists.commandparser.dispatch
 
-import com.martmists.commandparser.ext.strip
-
 class Dispatcher<C : Context> {
     private val commands = mutableListOf<LiteralNode<C>>()
 
@@ -13,7 +11,7 @@ class Dispatcher<C : Context> {
 
     suspend fun dispatch(context: C): Boolean {
         for (command in commands) {
-            if (command.tryDispatch(context, context.input.strip())) {
+            if (command.tryDispatch(context, context.input.trim())) {
                 return true
             }
         }

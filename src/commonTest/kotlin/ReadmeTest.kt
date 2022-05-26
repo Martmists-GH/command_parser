@@ -1,6 +1,3 @@
-@file:OptIn(ExperimentalStdlibApi::class, ExperimentalCoroutinesApi::class)
-@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
-
 import com.martmists.commandparser.arguments.ArgumentType
 import com.martmists.commandparser.arguments.FloatArgumentType
 import com.martmists.commandparser.arguments.IntegerArgumentType

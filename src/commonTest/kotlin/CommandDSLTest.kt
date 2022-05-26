@@ -1,6 +1,3 @@
-@file:Suppress("EXPERIMENTAL_IS_NOT_ENABLED")
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 import com.martmists.commandparser.arguments.IntegerArgumentType
 import com.martmists.commandparser.arguments.StringArgumentType
 import com.martmists.commandparser.dispatch.Context
@@ -13,7 +10,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class CommandTests {
+class CommandDSLTest {
     private val dispatcher = Dispatcher<Context>()
 
     init {

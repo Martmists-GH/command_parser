@@ -1,7 +1,5 @@
 package com.martmists.commandparser.dispatch
 
-import com.martmists.commandparser.ext.strip
-
 abstract class Node<C : Context> {
     private val children: MutableList<Node<C>> = mutableListOf()
     private var action: (suspend C.() -> Unit)? = null
@@ -35,14 +33,14 @@ abstract class Node<C : Context> {
         check = block
     }
 
-    internal suspend fun tryDispatch(context: C, input: String): Boolean {
+    internal open suspend fun tryDispatch(context: C, input: String): Boolean {
         val (matches, remaining) = match(context, input)
         if (matches) {
             if (this is ArgumentNode<C, *>) {
                 if (remaining == input) {
                     context.addParameter(this.name, null)
                 } else {
-                    context.addParameter(this.name, this.type.value(context, input.removeSuffix(remaining).strip()))
+                    context.addParameter(this.name, this.type.value(context, input.removeSuffix(remaining).trim()))
                 }
             }
 
@@ -52,7 +50,7 @@ abstract class Node<C : Context> {
                     return true
                 } else {
                     for (c in children) {
-                        if (c.tryDispatch(context, remaining.strip())) {
+                        if (c.tryDispatch(context, remaining.trim())) {
                             return true
                         }
                     }

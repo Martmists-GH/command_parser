@@ -22,7 +22,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.martmists:command_parser:1.2.4")
+    implementation("com.martmists:command_parser:1.3.0")
 }
 ```
 
