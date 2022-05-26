@@ -1,5 +1,6 @@
 package com.martmists.commandparser.dispatch
 
+@Suppress("UNCHECKED_CAST")
 open class Context(val input: String) {
     private val arguments = mutableMapOf<String, Any?>()
 
